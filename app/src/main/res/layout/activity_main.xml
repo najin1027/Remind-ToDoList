@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.njs.remind_todolist.viewmodel.ToDoListViewModel" />
+
+    </data>
+
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/setting_btn"
+            android:src="@drawable/ic_baseline_settings_36"
+            android:background="@color/blue"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/add_todoList_btn"
+            android:background="@color/blue"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:src="@drawable/ic_baseline_add_circle_36"
+            android:layout_height="?android:attr/actionBarSize"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todoList_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        bind_todoList = "@{viewModel.todoLists}"
+        />
+
+</LinearLayout>
+</layout>
