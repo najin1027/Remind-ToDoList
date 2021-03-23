@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this )
                 .setTitle("할일 삭제")
                 .setMessage("삭제하시겠습니까?")
+                .setCancelable(false)
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
