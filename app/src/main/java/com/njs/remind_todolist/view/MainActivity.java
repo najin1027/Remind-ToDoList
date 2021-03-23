@@ -1,11 +1,15 @@
 package com.njs.remind_todolist.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         binding.todoListRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.todoListRecyclerview.setAdapter(todoListAdapter);
 
-
+        setItemTouchHelper();
         binding.addTodoListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,7 +48,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setItemTouchHelper() {
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                showDeleteDialog(viewHolder);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
+    }
 
     private void addTodoList(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -73,5 +94,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         alertDialog.show();
+    }
+
+    private void showDeleteDialog(RecyclerView.ViewHolder viewHolder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this )
+                .setTitle("할일 삭제")
+                .setMessage("삭제하시겠습니까?")
+                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        viewModel.deleteTodoList(viewHolder.getLayoutPosition());
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        todoListAdapter.notifyDataSetChanged();
+                    }
+                });
+        AlertDialog deleteDialog = builder.create();
+        builder.show();
     }
 }

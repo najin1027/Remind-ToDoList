@@ -39,4 +39,16 @@ public class ToDoListRepository {
                 }
             }.execute();
     }
+
+    public void deleteTodoList(final ToDoList toDoList) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                database.toDoListDao().deleteTodoList(toDoList);
+                return null;
+            }
+        }.execute();
+
+    }
 }

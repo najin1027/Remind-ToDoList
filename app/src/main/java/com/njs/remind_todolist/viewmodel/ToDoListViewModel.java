@@ -1,6 +1,7 @@
 package com.njs.remind_todolist.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,6 +24,12 @@ public class ToDoListViewModel extends ViewModel {
 
     public void insertTodoList(ToDoList toDoList){
         toDoListRepository.insertToDoList(toDoList);
+    }
+
+    public void deleteTodoList(int position) {
+        ToDoList toDoList = todoLists.getValue().get(position);
+        Log.i("ToDoList", toDoList.getTodoList());
+        toDoListRepository.deleteTodoList(toDoList);
     }
 
 
