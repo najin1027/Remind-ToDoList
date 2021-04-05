@@ -16,6 +16,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".view.ScreenOnBroadCastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON"></action>
+                <action android:name="android.intent.action.SCREEN_OFF"></action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".view.TodoLisViewService"
+            android:enabled="true"
+            android:exported="false"
+            >
+        </service>
+
     </application>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" ></uses-permission>
+
+
 
 </manifest>

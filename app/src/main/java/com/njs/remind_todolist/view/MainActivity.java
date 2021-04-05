@@ -9,20 +9,28 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.njs.remind_todolist.R;
 import com.njs.remind_todolist.adapter.TodoListAdapter;
 import com.njs.remind_todolist.databinding.ActivityMainBinding;
 import com.njs.remind_todolist.model.ToDoList;
 import com.njs.remind_todolist.viewmodel.ToDoListViewModel;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements PermissionListener {
     private ActivityMainBinding binding;
     private ToDoListViewModel viewModel;
     private TodoListAdapter todoListAdapter;
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                showDeleteDialog(viewHolder);
+                deleteTodoList(viewHolder);
             }
         };
 
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void showDeleteDialog(RecyclerView.ViewHolder viewHolder) {
+    private void deleteTodoList(RecyclerView.ViewHolder viewHolder) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this )
                 .setTitle("할일 삭제")
                 .setMessage("삭제하시겠습니까?")
@@ -113,7 +121,61 @@ public class MainActivity extends AppCompatActivity {
                         todoListAdapter.notifyDataSetChanged();
                     }
                 });
-        AlertDialog deleteDialog = builder.create();
-        builder.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void requestPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("권한 요청")
+                .setMessage("스마트폰 화면을 킬 시 할 일 목록이 항상 위에 오게 하기 위해서 다른앱 위에 그리기 권한이 필수적으로 사용됩니다. \n 권한을 허용해주세요")
+                .setCancelable(false)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                            setSystemAlertWindowPermission();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void setSystemAlertWindowPermission() {
+        TedPermission.with(this)
+                .setPermissionListener(this)
+                .setPermissions(Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .check();
+    }
+
+    private void permissionCheck() {
+        if(!TedPermission.isGranted(this , Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+            requestPermissionDialog();
+        }
+        else{
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                startForegroundService(new Intent(this, TodoLisViewService.class));
+            else
+                startService(new Intent(this,TodoLisViewService.class));
+        }
+
+    }
+
+
+    @Override
+    public void onPermissionGranted() {
+
+    }
+
+    @Override
+    public void onPermissionDenied(List<String> deniedPermissions) {
+
+    }
+
+    @Override
+    protected void onStart() {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        permissionCheck();
+    }
+        super.onStart();
     }
 }
