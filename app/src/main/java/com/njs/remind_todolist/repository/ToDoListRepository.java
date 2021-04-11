@@ -19,25 +19,36 @@ public class ToDoListRepository {
     private LiveData<List<ToDoList>> todoLists;
 
     public ToDoListRepository(Application application) {
-      database = Database.getDatabase(application);
-      toDoListDao = database.toDoListDao();
-      todoLists = toDoListDao.getTodoList();
+        database = Database.getDatabase(application);
+        toDoListDao = database.toDoListDao();
+        todoLists = toDoListDao.getTodoList();
     }
 
 
-    public LiveData<List<ToDoList>> getTodoLists(){
+    public LiveData<List<ToDoList>> getTodoLists() {
         return toDoListDao.getTodoList();
     }
 
-    public void insertToDoList(final ToDoList toDoList){
-            new AsyncTask<Void , Void , Void>(){
+    public void insertToDoList(final ToDoList toDoList) {
+        new AsyncTask<Void, Void, Void>() {
 
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    database.toDoListDao().insertTodoList(toDoList);
-                    return null;
-                }
-            }.execute();
+            @Override
+            protected Void doInBackground(Void... voids) {
+                database.toDoListDao().insertTodoList(toDoList);
+                return null;
+            }
+        }.execute();
+    }
+
+    public void updateToDoList(final ToDoList toDoList) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                database.toDoListDao().updateTodoList(toDoList);
+                return null;
+            }
+        }.execute();
     }
 
     public void deleteTodoList(final ToDoList toDoList) {
@@ -49,6 +60,5 @@ public class ToDoListRepository {
                 return null;
             }
         }.execute();
-
     }
 }

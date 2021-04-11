@@ -17,23 +17,26 @@ public class ToDoListViewModel extends ViewModel {
     public ToDoListRepository toDoListRepository;
 
     public void init(Application application) {
-            toDoListRepository = new ToDoListRepository(application);
-            todoLists = toDoListRepository.getTodoLists();
+        toDoListRepository = new ToDoListRepository(application);
+        todoLists = toDoListRepository.getTodoLists();
     }
 
 
-    public void insertTodoList(ToDoList toDoList){
+    public void insertTodoList(ToDoList toDoList) {
         toDoListRepository.insertToDoList(toDoList);
     }
 
     public void deleteTodoList(int position) {
         ToDoList toDoList = todoLists.getValue().get(position);
-        Log.i("ToDoList", toDoList.getTodoList());
         toDoListRepository.deleteTodoList(toDoList);
     }
 
+    public void updateTodoList(ToDoList toDoList) {
+        toDoListRepository.updateToDoList(toDoList);
+    }
 
-    public LiveData<List<ToDoList>> getTodoLists(){
+
+    public LiveData<List<ToDoList>> getTodoLists() {
         return todoLists;
     }
 

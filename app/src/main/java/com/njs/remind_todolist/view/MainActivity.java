@@ -18,11 +18,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.njs.remind_todolist.R;
+import com.njs.remind_todolist.adapter.OnTodoItemClickListener;
 import com.njs.remind_todolist.adapter.TodoListAdapter;
 import com.njs.remind_todolist.databinding.ActivityMainBinding;
 import com.njs.remind_todolist.model.ToDoList;
@@ -54,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                 addTodoList();
             }
         });
+
+        todoListAdapter.setOnItemClickListener(new OnTodoItemClickListener() {
+            @Override
+            public void onItemClick(ToDoList toDoList) {
+                    updateTodoList(toDoList);
+            }
+        });
+
     }
 
     private void setItemTouchHelper() {
@@ -75,25 +85,23 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
     }
 
-    private void addTodoList(){
+    private void addTodoList() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final View dialogView = getLayoutInflater().inflate(R.layout.add_todo_dialog , null);
+        final View dialogView = getLayoutInflater().inflate(R.layout.add_todo_dialog, null);
         builder.setView(dialogView);
-        AlertDialog alertDialog = builder.create();
         Button addTodoListBtn = dialogView.findViewById(R.id.add_todoList_btn2);
+        AlertDialog alertDialog = builder.create();
 
         addTodoListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText editText = dialogView.findViewById(R.id.todoList_editTv);
 
-                if(editText.getText().length() <= 0) {
-                    Toast.makeText(getApplicationContext(),"할 일을 입력 해주세요." , Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (editText.getText().length() <= 0) {
+                    Toast.makeText(getApplicationContext(), "할 일을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
                     ToDoList toDoList = new ToDoList();
                     toDoList.setTodoList(String.valueOf(editText.getText()));
-
                     viewModel.insertTodoList(toDoList);
 
                     alertDialog.dismiss();
@@ -104,8 +112,36 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         alertDialog.show();
     }
 
+    private void updateTodoList(ToDoList toDoList) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View dialogView = getLayoutInflater().inflate(R.layout.add_todo_dialog, null);
+        Button addTodoListBtn = dialogView.findViewById(R.id.add_todoList_btn2);
+        TextView textView = dialogView.findViewById(R.id.todo_dialog_title);
+        textView.setText("할 일 수정");
+        addTodoListBtn.setText("수정");
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+
+        addTodoListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText = dialogView.findViewById(R.id.todoList_editTv);
+
+                if (editText.getText().length() <= 0) {
+                    Toast.makeText(getApplicationContext(), "할 일을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    toDoList.setTodoList(String.valueOf(editText.getText()));
+                    viewModel.updateTodoList(toDoList);
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+        alertDialog.show();
+    }
+
     private void deleteTodoList(RecyclerView.ViewHolder viewHolder) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this )
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("할일 삭제")
                 .setMessage("삭제하시겠습니까?")
                 .setCancelable(false)
@@ -133,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                            setSystemAlertWindowPermission();
+                        setSystemAlertWindowPermission();
                     }
                 });
         AlertDialog alertDialog = builder.create();
@@ -148,16 +184,14 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     }
 
     private void permissionCheck() {
-        if(!TedPermission.isGranted(this , Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+        if (!TedPermission.isGranted(this, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
             requestPermissionDialog();
-        }
-        else{
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 startForegroundService(new Intent(this, TodoLisViewService.class));
             else
-                startService(new Intent(this,TodoLisViewService.class));
+                startService(new Intent(this, TodoLisViewService.class));
         }
-
     }
 
 
@@ -173,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
     @Override
     protected void onStart() {
-    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        permissionCheck();
-    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            permissionCheck();
+        }
         super.onStart();
     }
 }

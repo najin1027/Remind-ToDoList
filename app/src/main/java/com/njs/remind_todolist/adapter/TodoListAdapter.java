@@ -16,11 +16,16 @@ import java.util.List;
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoListViewHolder> {
 
     private List<ToDoList> toDoLists;
+    private OnTodoItemClickListener listener;
 
 
     public void setData(List<ToDoList> toDoLists) {
         this.toDoLists = toDoLists;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnTodoItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,6 +56,15 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
         public ToDoListViewHolder(@NonNull ItemTodolistBinding itemTodolistBinding) {
             super(itemTodolistBinding.getRoot());
             this.itemTodolistBinding  = itemTodolistBinding;
+
+            itemTodolistBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener !=null) {
+                        listener.onItemClick(toDoLists.get(getAdapterPosition()));
+                    }
+                }
+            });
         }
 
         public void bind(ToDoList toDoList){
