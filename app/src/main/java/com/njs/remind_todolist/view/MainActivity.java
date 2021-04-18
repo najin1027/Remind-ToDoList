@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +23,8 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.njs.remind_todolist.R;
-import com.njs.remind_todolist.adapter.OnTodoItemClickListener;
+import com.njs.remind_todolist.adapter.ItemTouchHelperCallback;
+import com.njs.remind_todolist.adapter.OnTodoItemEventListener;
 import com.njs.remind_todolist.adapter.TodoListAdapter;
 import com.njs.remind_todolist.databinding.ActivityMainBinding;
 import com.njs.remind_todolist.model.ToDoList;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     private ActivityMainBinding binding;
     private ToDoListViewModel viewModel;
     private TodoListAdapter todoListAdapter;
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         binding.setViewModel(viewModel);
         binding.todoListRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.todoListRecyclerview.setAdapter(todoListAdapter);
+        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(todoListAdapter));
+        itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
 
-        setItemTouchHelper();
         binding.addTodoListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,32 +59,18 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
             }
         });
 
-        todoListAdapter.setOnItemClickListener(new OnTodoItemClickListener() {
+        todoListAdapter.setOnItemClickListener(new OnTodoItemEventListener() {
             @Override
             public void onItemClick(ToDoList toDoList) {
-                    updateTodoList(toDoList);
+                updateTodoList(toDoList);
+            }
+
+            @Override
+            public void onItemSwipe(ToDoList toDoList) {
+                deleteTodoList(toDoList);
             }
         });
 
-    }
-
-    private void setItemTouchHelper() {
-
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                deleteTodoList(viewHolder);
-            }
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
     }
 
     private void addTodoList() {
@@ -140,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         alertDialog.show();
     }
 
-    private void deleteTodoList(RecyclerView.ViewHolder viewHolder) {
+    private void deleteTodoList(ToDoList toDoList) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("할일 삭제")
                 .setMessage("삭제하시겠습니까?")
@@ -148,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        viewModel.deleteTodoList(viewHolder.getLayoutPosition());
+                        viewModel.deleteTodoList(toDoList);
                     }
                 })
                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {

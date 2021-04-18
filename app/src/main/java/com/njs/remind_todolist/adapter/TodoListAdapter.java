@@ -1,5 +1,6 @@
 package com.njs.remind_todolist.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,10 @@ import com.njs.remind_todolist.model.ToDoList;
 import java.util.List;
 
 
-public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoListViewHolder> {
+public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoListViewHolder> implements ItemTouchHelperListener{
 
     private List<ToDoList> toDoLists;
-    private OnTodoItemClickListener listener;
+    private OnTodoItemEventListener listener;
 
 
     public void setData(List<ToDoList> toDoLists) {
@@ -24,7 +25,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnTodoItemClickListener listener) {
+    public void setOnItemClickListener(OnTodoItemEventListener listener) {
         this.listener = listener;
     }
 
@@ -50,6 +51,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
         return toDoLists !=null ? toDoLists.size() : 0;
     }
 
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return true;
+    }
+
+    @Override
+    public void onItemSwipe(int position) {
+            listener.onItemSwipe(toDoLists.get(position));
+    }
+
     public class ToDoListViewHolder extends RecyclerView.ViewHolder {
 
         private ItemTodolistBinding itemTodolistBinding;
@@ -62,6 +73,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
                 public void onClick(View view) {
                     if (listener !=null) {
                         listener.onItemClick(toDoLists.get(getAdapterPosition()));
+
+                        Log.i("todoList_getID", String.valueOf(toDoLists.get(getAdapterPosition()).getId()));
                     }
                 }
             });

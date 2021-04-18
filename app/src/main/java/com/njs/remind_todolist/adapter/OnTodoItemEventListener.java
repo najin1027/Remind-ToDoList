@@ -4,7 +4,9 @@ import android.view.View;
 
 import com.njs.remind_todolist.model.ToDoList;
 
-public interface OnTodoItemClickListener {
+public interface OnTodoItemEventListener {
 
     void onItemClick(ToDoList toDoList);
+
+    void onItemSwipe(ToDoList toDoList);
 }

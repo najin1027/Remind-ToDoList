@@ -26,8 +26,7 @@ public class ToDoListViewModel extends ViewModel {
         toDoListRepository.insertToDoList(toDoList);
     }
 
-    public void deleteTodoList(int position) {
-        ToDoList toDoList = todoLists.getValue().get(position);
+    public void deleteTodoList(ToDoList toDoList) {
         toDoListRepository.deleteTodoList(toDoList);
     }
 
