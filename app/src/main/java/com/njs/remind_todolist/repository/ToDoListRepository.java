@@ -61,4 +61,15 @@ public class ToDoListRepository {
             }
         }.execute();
     }
+
+    public void updateTodoListId(final int fromId , final int toId) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                database.toDoListDao().updateId(fromId, toId);
+                return null;
+            }
+        }.execute();
+    }
 }

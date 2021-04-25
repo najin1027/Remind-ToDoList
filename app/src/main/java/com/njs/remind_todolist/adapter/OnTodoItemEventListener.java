@@ -9,4 +9,6 @@ public interface OnTodoItemEventListener {
     void onItemClick(ToDoList toDoList);
 
     void onItemSwipe(ToDoList toDoList);
+
+    void onItemMove(int fromId, int toId);
 }

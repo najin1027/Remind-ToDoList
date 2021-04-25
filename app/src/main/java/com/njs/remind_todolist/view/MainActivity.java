@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
             public void onItemSwipe(ToDoList toDoList) {
                 deleteTodoList(toDoList);
             }
+
+            @Override
+            public void onItemMove(int fromId, int toId) {
+                viewModel.updateTodoListId(fromId , -1);
+                viewModel.updateTodoListId(toId , fromId);
+                viewModel.updateTodoListId(-1, toId);
+            }
         });
 
     }
@@ -101,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     }
 
     private void updateTodoList(ToDoList toDoList) {
+        todoListAdapter.isDrag = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View dialogView = getLayoutInflater().inflate(R.layout.add_todo_dialog, null);
         Button addTodoListBtn = dialogView.findViewById(R.id.add_todoList_btn2);
@@ -109,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         addTodoListBtn.setText("수정");
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
-
         addTodoListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     }
 
     private void deleteTodoList(ToDoList toDoList) {
+        todoListAdapter.isDrag = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("할일 삭제")
                 .setMessage("삭제하시겠습니까?")
@@ -191,6 +199,12 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     @Override
     public void onPermissionDenied(List<String> deniedPermissions) {
 
+    }
+
+    @Override
+    protected void onPause() {
+       todoListAdapter.isDrag = false;
+        super.onPause();
     }
 
     @Override

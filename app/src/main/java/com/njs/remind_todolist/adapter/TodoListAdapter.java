@@ -18,11 +18,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
 
     private List<ToDoList> toDoLists;
     private OnTodoItemEventListener listener;
+    public boolean isDrag;
 
 
     public void setData(List<ToDoList> toDoLists) {
         this.toDoLists = toDoLists;
-        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnTodoItemEventListener listener) {
@@ -42,7 +42,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
     @Override
     public void onBindViewHolder(@NonNull ToDoListViewHolder holder, int position) {
         ToDoList toDoList = toDoLists.get(position);
-
         holder.bind(toDoList);
     }
 
@@ -53,6 +52,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
+        isDrag = true;
+        int fromId = toDoLists.get(fromPosition).getId();
+        int toId = toDoLists.get(toPosition).getId();
+        notifyItemMoved(fromPosition, toPosition);
+        listener.onItemMove(fromId, toId);
         return true;
     }
 

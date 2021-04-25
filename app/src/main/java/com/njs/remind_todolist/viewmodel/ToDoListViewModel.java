@@ -34,6 +34,10 @@ public class ToDoListViewModel extends ViewModel {
         toDoListRepository.updateToDoList(toDoList);
     }
 
+    public void updateTodoListId(int fromId, int toId) {
+        toDoListRepository.updateTodoListId(fromId, toId);
+    }
+
 
     public LiveData<List<ToDoList>> getTodoLists() {
         return todoLists;

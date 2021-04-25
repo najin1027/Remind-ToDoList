@@ -25,7 +25,7 @@ public interface ToDoListDao {
     @Update
     void updateTodoList(ToDoList toDoList);
 
-
-
+    @Query("UPDATE todoList set id = :updateId WHERE id = :id")
+    void updateId(int id, int updateId);
 
 }

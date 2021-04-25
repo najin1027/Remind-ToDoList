@@ -1,5 +1,7 @@
 package com.njs.remind_todolist.adapter;
 
+import android.view.HapticFeedbackConstants;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +25,12 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return listener.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
     }
 
+
+
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         listener.onItemSwipe(viewHolder.getAdapterPosition());
+        viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
     }
 
     @Override

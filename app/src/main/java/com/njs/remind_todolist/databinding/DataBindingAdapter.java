@@ -16,6 +16,8 @@ public class DataBindingAdapter {
 
         if(todoListAdapter !=null) {
             todoListAdapter.setData(toDoLists);
+            if(!todoListAdapter.isDrag)
+                todoListAdapter.notifyDataSetChanged();
         }
     }
 }
