@@ -17,15 +17,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".view.ScreenOnBroadCastReceiver"
-            android:enabled="true"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_OFF"></action>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
-        </receiver>
-
         <service android:name=".view.TodoLisViewService"
             android:enabled="true"
             android:exported="false"
