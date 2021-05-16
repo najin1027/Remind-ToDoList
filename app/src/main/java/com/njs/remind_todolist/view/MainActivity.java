@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        setDefaultSettings();
 
         binding.settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,30 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         binding.todoListRecyclerview.setAdapter(todoListAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(todoListAdapter));
         itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
+    }
+
+    private void setDefaultSettings() {
+        if (SettingValue.getBackgroundValue() == null)
+            SettingValue.setBackgroundValue("blue");
+        if (SettingValue.getTextSizeValue() == 0)
+            SettingValue.setTextSizeValue(2);
+        if (SettingValue.getTextAlignmentValue() == 0)
+            SettingValue.setTextAlignmentValue(2);
+
+//        switch (SettingValue.getBackgroundValue()) {
+//            case "light_brown":
+//                binding.settingBtn.setBackgroundColor(getResources().getColor(R.color.light_brown));
+//                binding.addTodoListBtn.setBackgroundColor(getResources().getColor(R.color.light_brown));
+//                binding.todoListRecyclerview.setBackgroundColor(getResources().getColor(R.color.light_brown));
+//                break;
+//            case "dark_brown":
+//                binding.settingBtn.setBackgroundColor(getResources().getColor(R.color.dark_brown));
+//                binding.addTodoListBtn.setBackgroundColor(getResources().getColor(R.color.dark_brown));
+//                binding.todoListRecyclerview.setBackgroundColor(getResources().getColor(R.color.dark_brown));
+//                break;
+//
+//            case ""
+//        }
     }
 
     private void addTodoList() {

@@ -10,7 +10,6 @@
             app:key="setting_background"
             app:iconSpaceReserved="false"
             app:title="배경 설정"
-            app:summary="test"
             />
 
         <Preference

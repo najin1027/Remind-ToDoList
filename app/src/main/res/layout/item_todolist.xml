@@ -8,22 +8,20 @@
             type="com.njs.remind_todolist.model.ToDoList" />
     </data>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/todoList_tv"
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:textSize="16dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:text="@{todoLists.todoList}"
-        />
+        android:gravity="center">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/todoList_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@{todoLists.todoList}"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+    </LinearLayout>
 </layout>
