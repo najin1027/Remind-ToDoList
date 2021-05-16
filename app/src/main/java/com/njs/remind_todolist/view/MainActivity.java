@@ -5,13 +5,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -27,30 +30,31 @@ import com.njs.remind_todolist.adapter.ItemTouchHelperCallback;
 import com.njs.remind_todolist.adapter.OnTodoItemEventListener;
 import com.njs.remind_todolist.adapter.TodoListAdapter;
 import com.njs.remind_todolist.databinding.ActivityMainBinding;
+import com.njs.remind_todolist.model.SettingValue;
 import com.njs.remind_todolist.model.ToDoList;
 import com.njs.remind_todolist.viewmodel.ToDoListViewModel;
 
 import java.util.List;
 
+import static com.njs.remind_todolist.model.SettingValue.sharedPreferences;
+
 public class MainActivity extends AppCompatActivity implements PermissionListener {
     private ActivityMainBinding binding;
     private ToDoListViewModel viewModel;
     private TodoListAdapter todoListAdapter;
-    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setLifecycleOwner(this);
-        viewModel = new ViewModelProvider(this).get(ToDoListViewModel.class);
-        viewModel.init(getApplication());
-        todoListAdapter = new TodoListAdapter();
-        binding.setViewModel(viewModel);
-        binding.todoListRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        binding.todoListRecyclerview.setAdapter(todoListAdapter);
-        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(todoListAdapter));
-        itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
+        init();
+
+        binding.settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
 
         binding.addTodoListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +76,28 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
             @Override
             public void onItemMove(int fromId, int toId) {
-                viewModel.updateTodoListId(fromId , -1);
-                viewModel.updateTodoListId(toId , fromId);
+                viewModel.updateTodoListId(fromId, -1);
+                viewModel.updateTodoListId(toId, fromId);
                 viewModel.updateTodoListId(-1, toId);
             }
         });
 
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    private void init() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SettingValue.spEditor = sharedPreferences.edit();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setLifecycleOwner(this);
+        viewModel = new ViewModelProvider(this).get(ToDoListViewModel.class);
+        viewModel.init(getApplication());
+        todoListAdapter = new TodoListAdapter();
+        binding.setViewModel(viewModel);
+        binding.todoListRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        binding.todoListRecyclerview.setAdapter(todoListAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(todoListAdapter));
+        itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
     }
 
     private void addTodoList() {
@@ -203,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
     @Override
     protected void onPause() {
-       todoListAdapter.isDrag = false;
+        todoListAdapter.isDrag = false;
         super.onPause();
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="basic_category"
+        app:title="기본 설정">
+
+        <Preference
+            app:key="setting_background"
+            app:iconSpaceReserved="false"
+            app:title="배경 설정"
+            app:summary="test"
+            />
+
+        <Preference
+            app:key="setting_text_size"
+            app:iconSpaceReserved="false"
+            app:title="글자 크기"
+            app:summary="test"
+            />
+
+        <Preference
+            app:key="setting_text alignment"
+            app:iconSpaceReserved="false"
+            app:title="글자 정렬"
+            app:summary="test"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

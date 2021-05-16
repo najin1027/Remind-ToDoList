@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="배경 설정"
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:text="배경 선택 후 적용"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_check_box_26" />
+    </LinearLayout>
+
+<ScrollView
+    android:id="@+id/background_setting_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/light_brown"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/dark_brown"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/reddish_brown"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/green"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/blue"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/violet"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/charcoal"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/black"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/light_pink"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/light_yellow"
+            android:buttonTint="@color/background_setting_radio_button_color"
+            android:layoutDirection="rtl" />
+
+    </RadioGroup>
+</ScrollView>
+
+</LinearLayout>
+
+</layout>

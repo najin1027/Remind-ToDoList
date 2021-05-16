@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.SettingActivity">
+
+        </activity>
+
         <service android:name=".view.TodoLisViewService"
             android:enabled="true"
             android:exported="false"
