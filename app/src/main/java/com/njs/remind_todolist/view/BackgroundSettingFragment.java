@@ -1,6 +1,7 @@
 package com.njs.remind_todolist.view;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,28 +44,30 @@ public class BackgroundSettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SettingValue.setBackgroundValue(selectBackgroundValue);
-                Toast.makeText(getActivity() , "재실행 시 적용 됩니다.", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getContext(), R.string.re_start_message, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
                 getActivity().onBackPressed();
             }
         });
         HashMap<String, Integer> settingValuesMap = new HashMap<String, Integer>() {{
-            put("light_brown" , R.id.color_light_brown);
-            put("dark_brown" , R.id.color_dark_brown);
-            put("reddish_brown" , R.id.color_reddish_brown);
-            put("green",  R.id.color_green);
-            put("blue" , R.id.color_blue);
-            put("violet" , R.id.color_violet);
-            put("charcoal" , R.id.color_charcoal);
+            put("light_brown", R.id.color_light_brown);
+            put("dark_brown", R.id.color_dark_brown);
+            put("reddish_brown", R.id.color_reddish_brown);
+            put("green", R.id.color_green);
+            put("blue", R.id.color_blue);
+            put("violet", R.id.color_violet);
+            put("charcoal", R.id.color_charcoal);
             put("black", R.id.color_black);
-            put("white",R.id.color_white);
+            put("white", R.id.color_white);
             put("light_pink", R.id.color_light_pink);
-            put("light_yellow" , R.id.color_light_yellow);
+            put("light_yellow", R.id.color_light_yellow);
         }};
         Iterator<Map.Entry<String, Integer>> entryIterator = settingValuesMap.entrySet().iterator();
         RadioGroup radioGroup = rootView.findViewById(R.id.radio_group);
         while (entryIterator.hasNext()) {
             Map.Entry<String, Integer> entry = entryIterator.next();
-            if(SettingValue.getBackgroundValue().equalsIgnoreCase(entry.getKey())) {
+            if (SettingValue.getBackgroundValue().equalsIgnoreCase(entry.getKey())) {
                 radioGroup.check(entry.getValue());
             }
         }

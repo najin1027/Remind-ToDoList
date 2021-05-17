@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        setDefaultSettings();
+        setBackgroundColor();
 
         binding.settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     private void init() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SettingValue.spEditor = sharedPreferences.edit();
+        if (SettingValue.getBackgroundValue() == null)
+            SettingValue.setBackgroundValue("blue");
+        if (SettingValue.getTextSizeValue() == 0)
+            SettingValue.setTextSizeValue(2);
+        if (SettingValue.getTextAlignmentValue() == 0)
+            SettingValue.setTextAlignmentValue(2);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         viewModel = new ViewModelProvider(this).get(ToDoListViewModel.class);
@@ -113,14 +120,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
     }
 
-    private void setDefaultSettings() {
-        if (SettingValue.getBackgroundValue() == null)
-            SettingValue.setBackgroundValue("blue");
-        if (SettingValue.getTextSizeValue() == 0)
-            SettingValue.setTextSizeValue(2);
-        if (SettingValue.getTextAlignmentValue() == 0)
-            SettingValue.setTextAlignmentValue(2);
-
+    private void setBackgroundColor() {
         // background Color Settings
         HashMap<String, Integer> settingValuesMap = new HashMap<String, Integer>() {{
             put("light_brown", R.color.light_brown);

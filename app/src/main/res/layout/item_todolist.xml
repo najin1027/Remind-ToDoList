@@ -9,15 +9,16 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/todoList_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        >
 
         <TextView
             android:id="@+id/todoList_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:padding="20dp"
             android:text="@{todoLists.todoList}"
             android:textColor="@color/white"

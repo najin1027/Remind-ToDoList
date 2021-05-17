@@ -1,6 +1,7 @@
 package com.njs.remind_todolist.adapter;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,31 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
                 itemTodolistBinding.todoListTv.setTextColor(ContextCompat.getColor(itemTodolistBinding.getRoot().getContext(), R.color.black));
             }
 
+            switch (SettingValue.getTextSizeValue()) {
+                case 1:
+                    itemTodolistBinding.todoListTv.setTextSize(12);
+                    break;
+                case 2:
+                    itemTodolistBinding.todoListTv.setTextSize(16);
+                    break;
+                case 3:
+                    itemTodolistBinding.todoListTv.setTextSize(22);
+                    break;
+            }
+
+
+            switch (SettingValue.getTextAlignmentValue()) {
+                case 1:
+                    itemTodolistBinding.todoListLinearLayout.setGravity(Gravity.START);
+                    break;
+                case 2:
+                    itemTodolistBinding.todoListLinearLayout.setGravity(Gravity.CENTER);
+                    break;
+                case 3:
+                    itemTodolistBinding.todoListLinearLayout.setGravity(Gravity.END);
+                    break;
+
+            }
         }
 
         public void bind(ToDoList toDoList) {

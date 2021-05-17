@@ -17,7 +17,7 @@ public class SettingValue {
     }
 
     public static int getTextAlignmentValue() {
-        return sharedPreferences.getInt("setting_text alignment", 0);
+        return sharedPreferences.getInt("setting_text_alignment", 0);
     }
 
 
