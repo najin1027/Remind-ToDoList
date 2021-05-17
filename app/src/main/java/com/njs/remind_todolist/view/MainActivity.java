@@ -1,23 +1,24 @@
 package com.njs.remind_todolist.view;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,7 +35,9 @@ import com.njs.remind_todolist.model.SettingValue;
 import com.njs.remind_todolist.model.ToDoList;
 import com.njs.remind_todolist.viewmodel.ToDoListViewModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.njs.remind_todolist.model.SettingValue.sharedPreferences;
 
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "UseCompatLoadingForDrawables"})
     private void init() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SettingValue.spEditor = sharedPreferences.edit();
@@ -95,7 +98,16 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         viewModel.init(getApplication());
         todoListAdapter = new TodoListAdapter();
         binding.setViewModel(viewModel);
-        binding.todoListRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL);
+        if (SettingValue.getBackgroundValue().equalsIgnoreCase("white")) {
+            dividerItemDecoration.setDrawable(getApplicationContext().getResources().getDrawable(R.drawable.recyclerview_divider_black));
+            binding.settingBtn.setImageResource(R.drawable.ic_baseline_settings_24_black);
+            binding.addTodoListBtn.setImageResource(R.drawable.ic_baseline_add_circle_24_black);
+            binding.headerLineView.setBackgroundColor(ContextCompat.getColor(this, R.color.black));
+        } else
+            dividerItemDecoration.setDrawable(getApplicationContext().getResources().getDrawable(R.drawable.recyclerview_divider_white));
+        binding.todoListRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.todoListRecyclerview.setAdapter(todoListAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(todoListAdapter));
         itemTouchHelper.attachToRecyclerView(binding.todoListRecyclerview);
@@ -109,20 +121,35 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         if (SettingValue.getTextAlignmentValue() == 0)
             SettingValue.setTextAlignmentValue(2);
 
-//        switch (SettingValue.getBackgroundValue()) {
-//            case "light_brown":
-//                binding.settingBtn.setBackgroundColor(getResources().getColor(R.color.light_brown));
-//                binding.addTodoListBtn.setBackgroundColor(getResources().getColor(R.color.light_brown));
-//                binding.todoListRecyclerview.setBackgroundColor(getResources().getColor(R.color.light_brown));
-//                break;
-//            case "dark_brown":
-//                binding.settingBtn.setBackgroundColor(getResources().getColor(R.color.dark_brown));
-//                binding.addTodoListBtn.setBackgroundColor(getResources().getColor(R.color.dark_brown));
-//                binding.todoListRecyclerview.setBackgroundColor(getResources().getColor(R.color.dark_brown));
-//                break;
-//
-//            case ""
-//        }
+        // background Color Settings
+        HashMap<String, Integer> settingValuesMap = new HashMap<String, Integer>() {{
+            put("light_brown", R.color.light_brown);
+            put("dark_brown", R.color.dark_brown);
+            put("reddish_brown", R.color.reddish_brown);
+            put("green", R.color.green);
+            put("blue", R.color.blue);
+            put("violet", R.color.violet);
+            put("charcoal", R.color.charcoal);
+            put("black", R.color.black);
+            put("white", R.color.white);
+            put("light_pink", R.color.light_pink);
+            put("light_yellow", R.color.light_yellow);
+        }};
+        for (Map.Entry<String, Integer> entry : settingValuesMap.entrySet()) {
+            if (SettingValue.getBackgroundValue().equalsIgnoreCase(entry.getKey())) {
+                binding.settingBtn.setBackgroundColor(ContextCompat.getColor(this, entry.getValue()));
+                binding.addTodoListBtn.setBackgroundColor(ContextCompat.getColor(this, entry.getValue()));
+                binding.todoListRecyclerview.setBackgroundColor(ContextCompat.getColor(this, entry.getValue()));
+                setStatusBarColor(entry.getValue());
+            }
+        }
+    }
+
+    private void setStatusBarColor(int color) {
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, color));
     }
 
     private void addTodoList() {

@@ -17,6 +17,10 @@ import com.njs.remind_todolist.R;
 import com.njs.remind_todolist.databinding.FragmentSettingBackgroundBinding;
 import com.njs.remind_todolist.model.SettingValue;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class BackgroundSettingFragment extends Fragment {
     private FragmentSettingBackgroundBinding binding;
     private View rootView;
@@ -39,44 +43,30 @@ public class BackgroundSettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SettingValue.setBackgroundValue(selectBackgroundValue);
+                Toast.makeText(getActivity() , "재실행 시 적용 됩니다.", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
             }
         });
-
+        HashMap<String, Integer> settingValuesMap = new HashMap<String, Integer>() {{
+            put("light_brown" , R.id.color_light_brown);
+            put("dark_brown" , R.id.color_dark_brown);
+            put("reddish_brown" , R.id.color_reddish_brown);
+            put("green",  R.id.color_green);
+            put("blue" , R.id.color_blue);
+            put("violet" , R.id.color_violet);
+            put("charcoal" , R.id.color_charcoal);
+            put("black", R.id.color_black);
+            put("white",R.id.color_white);
+            put("light_pink", R.id.color_light_pink);
+            put("light_yellow" , R.id.color_light_yellow);
+        }};
+        Iterator<Map.Entry<String, Integer>> entryIterator = settingValuesMap.entrySet().iterator();
         RadioGroup radioGroup = rootView.findViewById(R.id.radio_group);
-        switch (SettingValue.getBackgroundValue()) {
-            case "light_brown":
-                radioGroup.check(R.id.color_light_brown);
-                break;
-            case "dark_brown":
-                radioGroup.check(R.id.color_dark_brown);
-                break;
-            case "reddish_brown":
-                radioGroup.check(R.id.color_reddish_brown);
-                break;
-            case "green":
-                radioGroup.check(R.id.color_green);
-                break;
-            case "blue":
-                radioGroup.check(R.id.color_blue);
-                break;
-            case "violet":
-                radioGroup.check(R.id.color_violet);
-                break;
-            case "charcoal":
-                radioGroup.check(R.id.color_charcoal);
-                break;
-            case "black":
-                radioGroup.check(R.id.color_black);
-                break;
-            case "white":
-                radioGroup.check(R.id.color_white);
-                break;
-            case "light_pink":
-                radioGroup.check(R.id.color_light_pink);
-                break;
-            case "light_yellow":
-                radioGroup.check(R.id.color_light_yellow);
-                break;
+        while (entryIterator.hasNext()) {
+            Map.Entry<String, Integer> entry = entryIterator.next();
+            if(SettingValue.getBackgroundValue().equalsIgnoreCase(entry.getKey())) {
+                radioGroup.check(entry.getValue());
+            }
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -115,7 +105,6 @@ public class BackgroundSettingFragment extends Fragment {
                     case R.id.color_light_yellow:
                         selectBackgroundValue = "light_yellow";
                         break;
-
                 }
             }
         });

@@ -19,10 +19,9 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/setting_btn"
-            android:src="@drawable/ic_baseline_settings_36"
+            android:src="@drawable/ic_baseline_settings_24_white"
             android:background="@color/blue"
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -33,9 +32,15 @@
             android:background="@color/blue"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:src="@drawable/ic_baseline_add_circle_36"
+            android:src="@drawable/ic_baseline_add_circle_24_white"
             android:layout_height="?android:attr/actionBarSize"/>
     </LinearLayout>
+
+    <View
+        android:id="@+id/header_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todoList_recyclerview"

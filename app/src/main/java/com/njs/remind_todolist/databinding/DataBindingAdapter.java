@@ -11,12 +11,12 @@ import java.util.List;
 public class DataBindingAdapter {
 
     @BindingAdapter("bind_todoList")
-    public static void bindTodoListItem(RecyclerView recyclerView , List<ToDoList> toDoLists){
+    public static void bindTodoListItem(RecyclerView recyclerView, List<ToDoList> toDoLists) {
         TodoListAdapter todoListAdapter = (TodoListAdapter) recyclerView.getAdapter();
 
-        if(todoListAdapter !=null) {
+        if (todoListAdapter != null) {
             todoListAdapter.setData(toDoLists);
-            if(!todoListAdapter.isDrag)
+            if (!todoListAdapter.isDrag)
                 todoListAdapter.notifyDataSetChanged();
         }
     }

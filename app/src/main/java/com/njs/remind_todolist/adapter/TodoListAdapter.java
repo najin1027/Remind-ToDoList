@@ -6,15 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.njs.remind_todolist.R;
 import com.njs.remind_todolist.databinding.ItemTodolistBinding;
+import com.njs.remind_todolist.model.SettingValue;
 import com.njs.remind_todolist.model.ToDoList;
 
 import java.util.List;
 
 
-public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoListViewHolder> implements ItemTouchHelperListener{
+public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoListViewHolder> implements ItemTouchHelperListener {
 
     private List<ToDoList> toDoLists;
     private OnTodoItemEventListener listener;
@@ -47,7 +50,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
 
     @Override
     public int getItemCount() {
-        return toDoLists !=null ? toDoLists.size() : 0;
+        return toDoLists != null ? toDoLists.size() : 0;
     }
 
     @Override
@@ -62,29 +65,34 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoLi
 
     @Override
     public void onItemSwipe(int position) {
-            listener.onItemSwipe(toDoLists.get(position));
+        listener.onItemSwipe(toDoLists.get(position));
     }
 
     public class ToDoListViewHolder extends RecyclerView.ViewHolder {
 
         private ItemTodolistBinding itemTodolistBinding;
+
         public ToDoListViewHolder(@NonNull ItemTodolistBinding itemTodolistBinding) {
             super(itemTodolistBinding.getRoot());
-            this.itemTodolistBinding  = itemTodolistBinding;
+            this.itemTodolistBinding = itemTodolistBinding;
 
             itemTodolistBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener !=null) {
+                    if (listener != null) {
                         listener.onItemClick(toDoLists.get(getAdapterPosition()));
 
                         Log.i("todoList_getID", String.valueOf(toDoLists.get(getAdapterPosition()).getId()));
                     }
                 }
             });
+            if (SettingValue.getBackgroundValue().equalsIgnoreCase("white")) {
+                itemTodolistBinding.todoListTv.setTextColor(ContextCompat.getColor(itemTodolistBinding.getRoot().getContext(), R.color.black));
+            }
+
         }
 
-        public void bind(ToDoList toDoList){
+        public void bind(ToDoList toDoList) {
             itemTodolistBinding.setTodoLists(toDoList);
         }
     }
