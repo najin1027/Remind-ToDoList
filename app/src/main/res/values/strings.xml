@@ -1,13 +1,29 @@
 <resources>
     <string name="app_name">Remind-ToDoList</string>
-    
+
+    <string name="dialog_request_permission_title">Request Permission</string>
+    <string name="dialog_request_permission_message">You need permission to draw on top of another app. \n\n Please allow me permission.</string>
     <string name="dialog_check">OK</string>
+    <string name="dialog_agree">Yes</string>
     <string name="dialog_cancel">Cancel</string>
-
     <string name="re_start_message">Applies on rerun</string>
-
+    <string name="dialog_update_todo_list_title">Modify To Do List</string>
+    <string name="dialog_delete_todo_list_title">Delete To Do List</string>
+    <string name="dialog_delete_todo_seeking_consent_to_delete">Are you sure you want to delete it?</string>
+    <string name="dialog_add_todo_list_title">Add To Do List</string>
+    <string name="dialog_add_todo_list_edit_tv_hint">Write what you need to do</string>
+    <string name="dialog_add_todo_list_btn_text">Add</string>
+    <string name="dialog_add_todo_list_toast_message">Please enter what you need to do</string>
+    <string name="dialog_text_setting_title">Character Size Settings</string>
     <string name="text_alignment_setting_dialog_title">Set Text Alignment</string>
-
+    <string name="fragment_setting_background_title">Background Settings</string>
+    <string name="fragment_setting_background_apply_background_text">Select background and apply</string>
+    <string name="foreground_service_title">ReMind-TodoList / Todo List</string>
+    <string name="foreground_service_message">Use drawing permissions on top of other apps</string>
+    <string name="preference_setting_default_category_title">Default Settings</string>
+    <string name="preference_setting_background_title">Background Settings</string>
+    <string name="preference_setting_text_size_title">Text Size</string>
+    <string name="preference_setting_text_alignment_title">Text Alignment</string>
     <string-array name="spinner_item_text_size">
         <item>Small</item>
         <item>Middle</item>

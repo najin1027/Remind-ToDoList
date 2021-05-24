@@ -38,7 +38,7 @@ public class MainSettingFragment extends PreferenceFragmentCompat implements Pre
     private void setPreference() {
         settingBackground = findPreference("setting_background");
         settingTextSize = findPreference("setting_text_size");
-        settingTextAlignment = findPreference("setting_text alignment");
+        settingTextAlignment = findPreference("setting_text_alignment");
         settingBackground.setOnPreferenceClickListener(this);
         settingTextSize.setOnPreferenceClickListener(this);
         settingTextAlignment.setOnPreferenceClickListener(this);
@@ -182,7 +182,7 @@ public class MainSettingFragment extends PreferenceFragmentCompat implements Pre
             case "setting_text_size":
                 showTextSizeSettingDialog();
                 break;
-            case "setting_text alignment":
+            case "setting_text_alignment":
                 showTextAlignmentSettingDialog();
                 break;
         }

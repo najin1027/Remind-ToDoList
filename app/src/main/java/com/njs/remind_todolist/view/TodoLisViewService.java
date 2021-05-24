@@ -1,11 +1,8 @@
 package com.njs.remind_todolist.view;
-
-import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,8 +11,6 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
-import com.gun0912.tedpermission.TedPermission;
 import com.njs.remind_todolist.R;
 
 public class TodoLisViewService extends Service {
@@ -46,9 +41,9 @@ public class TodoLisViewService extends Service {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "ch")
                     .setSmallIcon(R.drawable.ic_list_24)
-                    .setContentTitle("ReMind-TodoList / 할일 목록")
+                    .setContentTitle(getApplicationContext().getResources().getString(R.string.foreground_service_title))
                     .setContentIntent(pendingIntent)
-                    .setContentText("다른앱 위에 그리기 권한 실행 중");
+                    .setContentText(getApplicationContext().getResources().getString(R.string.foreground_service_message));
             notificationManager.notify(1, builder.build());
             startForeground(1, builder.build());
         }

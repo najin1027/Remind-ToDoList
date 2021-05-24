@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="배경 설정"
+        android:text="@string/fragment_setting_background_title"
         android:textColor="@color/black"
         android:textSize="15dp" />
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="9"
-            android:text="배경 선택 후 적용"
+            android:text="@string/fragment_setting_background_apply_background_text"
             android:textColor="@color/black" />
 
         <ImageView

@@ -4,25 +4,25 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:key="basic_category"
-        app:title="기본 설정">
+        app:title="@string/preference_setting_default_category_title">
 
         <Preference
             app:key="setting_background"
             app:iconSpaceReserved="false"
-            app:title="배경 설정"
+            app:title="@string/fragment_setting_background_title"
             />
 
         <Preference
             app:key="setting_text_size"
             app:iconSpaceReserved="false"
-            app:title="글자 크기"
+            app:title="@string/preference_setting_text_size_title"
             app:summary="test"
             />
 
         <Preference
-            app:key="setting_text alignment"
+            app:key="setting_text_alignment"
             app:iconSpaceReserved="false"
-            app:title="글자 정렬"
+            app:title="@string/preference_setting_text_alignment_title"
             app:summary="test"
             />
     </PreferenceCategory>

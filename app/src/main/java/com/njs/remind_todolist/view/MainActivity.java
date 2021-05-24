@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                 EditText editText = dialogView.findViewById(R.id.todoList_editTv);
 
                 if (editText.getText().length() <= 0) {
-                    Toast.makeText(getApplicationContext(), "할 일을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.dialog_add_todo_list_toast_message, Toast.LENGTH_SHORT).show();
                 } else {
                     ToDoList toDoList = new ToDoList();
                     toDoList.setTodoList(String.valueOf(editText.getText()));
@@ -185,8 +185,8 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         final View dialogView = getLayoutInflater().inflate(R.layout.add_todo_dialog, null);
         Button addTodoListBtn = dialogView.findViewById(R.id.add_todoList_btn2);
         TextView textView = dialogView.findViewById(R.id.todo_dialog_title);
-        textView.setText("할 일 수정");
-        addTodoListBtn.setText("수정");
+        textView.setText(R.string.dialog_update_todo_list_title);
+        addTodoListBtn.setText(R.string.dialog_check);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
         addTodoListBtn.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                 EditText editText = dialogView.findViewById(R.id.todoList_editTv);
 
                 if (editText.getText().length() <= 0) {
-                    Toast.makeText(getApplicationContext(), "할 일을 입력 해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.dialog_add_todo_list_toast_message, Toast.LENGTH_SHORT).show();
                 } else {
                     toDoList.setTodoList(String.valueOf(editText.getText()));
                     viewModel.updateTodoList(toDoList);
@@ -210,16 +210,16 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     private void deleteTodoList(ToDoList toDoList) {
         todoListAdapter.isDrag = false;
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("할일 삭제")
-                .setMessage("삭제하시겠습니까?")
+                .setTitle(R.string.dialog_delete_todo_list_title)
+                .setMessage(R.string.dialog_delete_todo_seeking_consent_to_delete)
                 .setCancelable(false)
-                .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_agree, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         viewModel.deleteTodoList(toDoList);
                     }
                 })
-                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         todoListAdapter.notifyDataSetChanged();
@@ -231,10 +231,10 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
     private void requestPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("권한 요청")
-                .setMessage("스마트폰 화면을 킬 시 할 일 목록이 항상 위에 오게 하기 위해서 다른앱 위에 그리기 권한이 필수적으로 사용됩니다. \n 권한을 허용해주세요")
+                .setTitle(R.string.dialog_request_permission_title)
+                .setMessage(R.string.dialog_request_permission_message)
                 .setCancelable(false)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_check, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         setSystemAlertWindowPermission();

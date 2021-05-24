@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="할 일 추가"
+        android:text="@string/dialog_add_todo_list_title"
         android:textSize="26dp"
         />
 
@@ -24,7 +24,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp"
         android:textSize="18dp"
-        android:hint="할 일을 작성하세요"
+        android:hint="@string/dialog_add_todo_list_edit_tv_hint"
         android:id="@+id/todoList_editTv"
 />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:layout_margin="20dp"
-        android:text="추가"
+        android:text="@string/dialog_add_todo_list_btn_text"
         android:textSize="20dp"
         android:id="@+id/add_todoList_btn2"
         >
